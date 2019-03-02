@@ -1,6 +1,5 @@
 package parser;
 
-import javafx.util.Pair;
 import model.FeedModel;
 import util.Log;
 import util.XMLEventCharactersReader;
@@ -26,7 +25,7 @@ class RSSItemParser {
      * @param eventReader XMLEventReader pointing right after item tag opening
      * @return map: ItemProperty -> value
      */
-    Map<String, String> parse(XMLEvent event, XMLEventReader eventReader) throws IllegalAccessException {
+    Map<String, String> parse(XMLEvent event, XMLEventReader eventReader) throws IllegalAccessException, XMLStreamException {
         Map<String, String> model = new HashMap<>();
         if (!(event.isStartElement() && (
                 event.asStartElement().getName().getLocalPart().equals(FeedModel.FEED_ITEM)
@@ -47,7 +46,14 @@ class RSSItemParser {
                         );
                         continue;
                     }
-                    model.put(localPart.toLowerCase(), XMLEventCharactersReader.getCharacterData(event, eventReader));
+                    try {
+                        model.put(
+                                localPart.toLowerCase(),
+                                XMLEventCharactersReader.getCharacterData(event, eventReader)
+                        );
+                    } catch (IllegalAccessException e) {
+                        log.error(e.getMessage());
+                    }
                 } else if (event.isEndElement()) {
                     if (event.asEndElement().getName().getLocalPart().equals(FeedModel.FEED_ITEM)) {
                         break;
@@ -56,6 +62,7 @@ class RSSItemParser {
             }
         } catch (XMLStreamException e) {
             log.error("Error occurred during parsing XML items and writing item properties: " + e.getMessage());
+            throw e;
         }
         return model;
     }

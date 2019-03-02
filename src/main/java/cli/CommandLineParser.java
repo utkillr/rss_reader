@@ -190,6 +190,9 @@ public class CommandLineParser {
         // help
         } else if ("help".equals(cmd)) {
             manager.printHelp();
+        // save
+        } else if ("save".equals(cmd)) {
+            manager.saveConfiguration();
         // exit
         } else if ("exit".equals(cmd)) {
             manager.prettyPrint("Exiting...");

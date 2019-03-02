@@ -27,7 +27,7 @@ class RSSChannelParser {
      * @param eventReader XMLEventReader pointing right after channel tag opening
      * @return parsed FeedModel
      */
-    FeedModel parse(XMLEvent event, XMLEventReader eventReader) throws IllegalAccessException {
+    FeedModel parse(XMLEvent event, XMLEventReader eventReader) throws IllegalAccessException, XMLStreamException {
         FeedModel model = new FeedModel();
         if (!(event.isStartElement() && (
                 event.asStartElement().getName().getLocalPart().equals(FeedModel.FEED_CHANNEL)
@@ -71,6 +71,7 @@ class RSSChannelParser {
             }
         } catch (XMLStreamException e) {
             log.error("Error occurred during parsing XML items and writing channel properties: " + e.getMessage());
+            throw e;
         }
         return model;
     }

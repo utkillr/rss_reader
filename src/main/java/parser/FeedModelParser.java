@@ -37,7 +37,7 @@ public class FeedModelParser {
                 }
             }
         } catch (XMLStreamException e) {
-            log.error("Error occurred during parsing rss: " + e.getMessage());
+            log.error("Error occurred during parsing RSS Feed: " + e.getMessage());
         } catch (IllegalAccessException e) {
             log.error(e.getMessage());
         }

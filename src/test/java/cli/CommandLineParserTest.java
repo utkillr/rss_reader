@@ -2,6 +2,7 @@ package cli;
 
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import javax.xml.bind.ValidationException;
@@ -36,6 +37,7 @@ public class CommandLineParserTest {
         Mockito.doNothing().when(clm).printAvailableRssItemParams();
         Mockito.doNothing().when(clm).printRss();
         Mockito.doNothing().when(clm).printHelp();
+        Mockito.doNothing().when(clm).saveConfiguration();
 
         return clm;
     }
@@ -351,6 +353,17 @@ public class CommandLineParserTest {
             thrown = true;
         }
         assertTrue(thrown);
+    }
+
+    @Test
+    @DisplayName("Test to parse save command")
+    public void parseSaveCmdTest() throws ValidationException {
+        CommandLineManager clm = getMock();
+        CommandLineParser parser = new CommandLineParser(clm);
+
+        String cmd = "save";
+        parser.parse(cmd);
+        Mockito.verify(clm, Mockito.times(1)).saveConfiguration();
     }
 
     @Test

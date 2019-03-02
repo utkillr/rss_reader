@@ -23,6 +23,8 @@ public class XMLEventCharactersReader {
         XMLEventWriter eventWriter = XMLOutputFactory.newInstance().createXMLEventWriter(writer);
         if (event.isStartElement()) {
             event = eventReader.nextEvent();
+            // in case it's <tag />
+            if (event.isEndElement()) return "";
             int depth = 1;
             while (eventReader.hasNext() && depth > 0) {
                 if (event.isCharacters() && event.asCharacters().isWhiteSpace()) {

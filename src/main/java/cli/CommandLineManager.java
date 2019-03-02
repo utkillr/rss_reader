@@ -1,5 +1,6 @@
 package cli;
 
+import config.AutoRSSConfigurator;
 import config.RSSConfiguration;
 import util.Log;
 import validator.RSSFeedValidator;
@@ -8,6 +9,7 @@ import javax.xml.bind.ValidationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +74,8 @@ class CommandLineManager {
                             "Get current time to poll in seconds\n\t\t" +
                         "<time>:\n\t\t\t" +
                             "Set time to poll in seconds\n\t" +
+                    "save:\n\t\t" +
+                        "Save current configuration\n\t" +
                     "help:\n\t\t" +
                         "Print this Help message\n\t" +
                     "exit:\n\t\t" +
@@ -105,6 +109,7 @@ class CommandLineManager {
     void associateRssToFile(String link, String file) throws ValidationException {
         if (validator.validate(link)) {
             RSSConfiguration.getInstance().addRSSFeed(link, file);
+            log.info(link + " is associated to " + file);
         } else {
             throw new ValidationException("RSS Feed " + link + " is invalid");
         }
@@ -117,6 +122,7 @@ class CommandLineManager {
      */
     void dissociateRss(String link) {
         RSSConfiguration.getInstance().delRSSFeed(link);
+        log.info(link + " is dissociated");
     }
 
     /**
@@ -128,6 +134,7 @@ class CommandLineManager {
     void reassociateRssToFile(String link, String file) throws ValidationException {
         if (validator.validate(link)) {
             RSSConfiguration.getInstance().setRSSFeedFile(link, file);
+            log.info(link + " is reassociated to " + file);
         } else {
             throw new ValidationException("RSS Feed " + link + " is invalid");
         }
@@ -139,7 +146,7 @@ class CommandLineManager {
      * @param link rss feed link
      */
     void printRssFile(String link) {
-        System.out.println("Associated file: " + RSSConfiguration.getInstance().getRSSFeeds().get(link));
+        prettyPrint(link + " is associated to " + RSSConfiguration.getInstance().getRSSFeeds().get(link));
     }
 
     /**
@@ -149,6 +156,7 @@ class CommandLineManager {
      */
     void turnRSSOn(String link) {
         RSSConfiguration.getInstance().turnOnRSSFeed(link);
+        log.info(link + " is on");
     }
 
     /**
@@ -158,6 +166,7 @@ class CommandLineManager {
      */
     void turnRSSOff(String link) {
         RSSConfiguration.getInstance().turnOffRSSFeed(link);
+        log.info(link + " is off");
     }
 
       /**
@@ -168,10 +177,11 @@ class CommandLineManager {
        */
     void setRSSMaxItems(String link, Integer maxItems) {
         RSSConfiguration.getInstance().setFeedMaxItems(link, maxItems);
+        log.info("Set maxItems of " + link + " to " + maxItems);
     }
 
     void printRSSMaxItems(String link) {
-        System.out.println("Configured max items count:\n" + RSSConfiguration.getInstance().getFeedMaxItems(link));
+        prettyPrint("Configured maxItems count for " + link + " is " + RSSConfiguration.getInstance().getFeedMaxItems(link));
     }
 
     /**
@@ -187,11 +197,12 @@ class CommandLineManager {
      * Print all the RSS feeds with associated files
      */
     void printRss() {
+        List<String> res = new ArrayList<>();
         Map<String, String> rssFeeds = RSSConfiguration.getInstance().getRSSFeeds();
-        final PrintWriter writer = new PrintWriter(System.out);
+        res.add("RSS Feeds are:");
         if (rssFeeds.size() > 0) {
             rssFeeds.forEach((rss, file) ->
-                    writer.println(
+                    res.add(
                             String.format(
                                     "%s (%s): %s",
                                     rss,
@@ -203,14 +214,15 @@ class CommandLineManager {
         } else {
             log.warn("No RSS available");
         }
-        writer.flush(); // вывод
+        prettyPrint(res.toArray());
     }
 
     /**
      * Get list of available item params
      */
     void printAvailableRssItemParams() {
-        System.out.println("Available item params:\n" + RSSConfiguration.getAvailableItemFields());
+        prettyPrint("Available item params:",
+                RSSConfiguration.getAvailableItemFields().toString());
     }
 
     /**
@@ -219,7 +231,8 @@ class CommandLineManager {
      * @param feed RSS Feed to get params
      */
     void printRssItemParams(String feed) {
-        System.out.println("Configured item params:\n" + RSSConfiguration.getInstance().getItemFields(feed));
+        prettyPrint("Configured item params for " + feed + ":",
+                RSSConfiguration.getInstance().getItemFields(feed).toString());
     }
 
     /**
@@ -230,13 +243,15 @@ class CommandLineManager {
      */
     void setRssItemParams(String feed, List<String> params) {
         RSSConfiguration.getInstance().reconfig(feed, params, Collections.emptyList());
+        log.info("Set " + feed + " item params to " + params);
     }
 
     /**
      * Get list of available channel params
      */
     void printAvailableRssChannelParams() {
-        System.out.println("Available channel params:\n" + RSSConfiguration.getAvailableChannelFields());
+        prettyPrint("Available channel params:",
+                RSSConfiguration.getAvailableChannelFields().toString());
     }
 
     /**
@@ -245,7 +260,8 @@ class CommandLineManager {
      * @param feed RSS Feed to set params
      */
     void printRssChannelParams(String feed) {
-        System.out.println("Configured channel params:\n" + RSSConfiguration.getInstance().getChannelFields(feed));
+        prettyPrint("Configured channel params for " + feed + ":",
+                RSSConfiguration.getInstance().getChannelFields(feed).toString());
     }
 
     /**
@@ -256,6 +272,7 @@ class CommandLineManager {
      */
     void setRssChannelParams(String feed, List<String> params) {
         RSSConfiguration.getInstance().reconfig(feed, Collections.emptyList(), params);
+        log.info("Set " + feed + " channel params to " + params);
     }
 
     /**
@@ -265,27 +282,32 @@ class CommandLineManager {
      */
     void setTimeToPoll(Long time) {
         RSSConfiguration.getInstance().setTimeToPoll(time);
+        log.info("Set time to poll to " + time);
     }
 
     /**
      * Print time to poll RSS Feeds
      */
     void printTimeToPoll() {
-        long timeToPoll = RSSConfiguration.getInstance().getTimeToPoll();
-        final PrintWriter writer = new PrintWriter(System.out);
-        writer.println(timeToPoll);
-        writer.flush(); // вывод
+        prettyPrint("Time to poll is " + RSSConfiguration.getInstance().getTimeToPoll());
+    }
+
+    /**
+     * Save current configurations
+     */
+    void saveConfiguration() {
+        AutoRSSConfigurator.saveRSSConfiguration();
+        log.info("Configuration saved");
     }
 
     /**
      * Pretty format of cli response
+     *
      * @param messages Strings to output line by line
      */
-    void prettyPrint(String... messages) {
-        for (String message : messages) {
-            log.response(message);
+    void prettyPrint(Object... messages) {
+        for (Object message : messages) {
+            log.response(message.toString());
         }
-        log.emptyLine();
-
     }
 }

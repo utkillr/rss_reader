@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class RSSFeedValidator {
 
-    private Log log = new Log("Validator", System.out);
+    private static Log log = new Log(RSSFeedValidator.class.getName(), System.out);
 
     public boolean validate(String feed) {
         FeedModel model;

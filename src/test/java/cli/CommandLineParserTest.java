@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 
+import javax.xml.bind.ValidationException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -11,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class CommandLineParserTest {
 
-    private CommandLineManager getMock() {
+    private CommandLineManager getMock() throws ValidationException {
         CommandLineManager clm = Mockito.mock(CommandLineManager.class);
         Mockito.doNothing().when(clm).createFileIfNotExists("dummy.txt");
         Mockito.doNothing().when(clm).associateRssToFile("dummy.rss", "dummy.txt");
@@ -41,7 +42,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse add command")
-    public void parseRssAddTest() {
+    public void parseRssAddTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         boolean thrown;
@@ -101,7 +102,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse del command")
-    public void parseRssDelTest() {
+    public void parseRssDelTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         boolean thrown;
@@ -131,7 +132,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse on and off commands")
-    public void parseOnOffTest() {
+    public void parseOnOffTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         boolean thrown;
@@ -181,7 +182,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse file commands")
-    public void parseFileTest() {
+    public void parseFileTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         boolean thrown;
@@ -220,7 +221,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse channel commands")
-    public void parseChannelTest() {
+    public void parseChannelTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         List<String> params = Arrays.asList("a", "b", "c");
@@ -246,7 +247,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse item commands")
-    public void parseItemTest() {
+    public void parseItemTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         List<String> params = Arrays.asList("a", "b", "c");
@@ -272,7 +273,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse max commands")
-    public void parseMaxTest() {
+    public void parseMaxTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         boolean thrown;
@@ -316,7 +317,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse rss command")
-    public void parseRssTest() {
+    public void parseRssTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
 
@@ -327,7 +328,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse time commands")
-    public void parseTimeTest() {
+    public void parseTimeTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         boolean thrown;
@@ -354,7 +355,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse help command")
-    public void parseHelpTest() {
+    public void parseHelpTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
 
@@ -369,7 +370,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse exit command")
-    public void parseExitTest() {
+    public void parseExitTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
 
@@ -382,7 +383,7 @@ public class CommandLineParserTest {
 
     @Test(expected = IllegalArgumentException.class)
     @DisplayName("Test to parse dummy command")
-    public void parseDummyTest() {
+    public void parseDummyTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         String cmd = "dummy";
@@ -391,7 +392,7 @@ public class CommandLineParserTest {
 
     @Test
     @DisplayName("Test to parse empty command")
-    public void parseEmptyCmdTest() {
+    public void parseEmptyCmdTest() throws ValidationException {
         CommandLineManager clm = getMock();
         CommandLineParser parser = new CommandLineParser(clm);
         assertEquals(0, parser.parse(""));

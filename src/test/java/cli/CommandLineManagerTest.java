@@ -4,8 +4,11 @@ import config.RSSConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.mockito.Mockito;
 import poller.Poller;
+import validator.RSSFeedValidator;
 
+import javax.xml.bind.ValidationException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +22,10 @@ public class CommandLineManagerTest {
 
     @Before
     public void setManager() {
-        manager = new CommandLineManager();
+        RSSFeedValidator validator = Mockito.mock(RSSFeedValidator.class);
+        Mockito.doReturn(true).when(validator).validate("dummy.rss");
+        Mockito.doReturn(false).when(validator).validate("newdummy.rss");
+        manager = new CommandLineManager(validator);
     }
 
     @Test
@@ -41,7 +47,7 @@ public class CommandLineManagerTest {
 
     @Test
     @DisplayName("Test to associate, reassociate and dissociate feeds and files")
-    public void associateAndDissociateRssToFileTest() {
+    public void associateAndDissociateRssToFileTest() throws ValidationException {
         assertTrue(RSSConfiguration.getInstance().getRSSFeeds().isEmpty());
         String link = "dummy.rss";
         String file = "dummy.txt";
@@ -49,7 +55,15 @@ public class CommandLineManagerTest {
         assertEquals(1, RSSConfiguration.getInstance().getRSSFeeds().size());
         assertEquals(file, RSSConfiguration.getInstance().getRSSFeeds().get(link));
 
-        file = "new_dummy.txt";
+        boolean thrown = false;
+        try {
+            manager.associateRssToFile("newdummy.rss", file);
+        } catch (ValidationException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+
+        file = "newdummy.txt";
         manager.reassociateRssToFile(link, file);
         assertEquals(1, RSSConfiguration.getInstance().getRSSFeeds().size());
         assertEquals(file, RSSConfiguration.getInstance().getRSSFeeds().get(link));
@@ -60,7 +74,7 @@ public class CommandLineManagerTest {
 
     @Test
     @DisplayName("Test to turn feeds on and off")
-    public void turnRSSOnOffTest() {
+    public void turnRSSOnOffTest() throws ValidationException {
         assertTrue(RSSConfiguration.getInstance().getRSSFeeds().isEmpty());
         String link = "dummy.rss";
         String file = "dummy.txt";
@@ -85,7 +99,7 @@ public class CommandLineManagerTest {
 
     @Test
     @DisplayName("Test to setup different item params")
-    public void setRssItemParamsTest() {
+    public void setRssItemParamsTest() throws ValidationException {
         assertTrue(RSSConfiguration.getInstance().getRSSFeeds().isEmpty());
         String link = "dummy.rss";
         String file = "dummy.txt";
@@ -113,7 +127,7 @@ public class CommandLineManagerTest {
 
     @Test
     @DisplayName("Test to setup different Items max count")
-    public void setRssMaxCountTest() {
+    public void setRssMaxCountTest() throws ValidationException {
         assertTrue(RSSConfiguration.getInstance().getRSSFeeds().isEmpty());
         String link = "dummy.rss";
         String file = "dummy.txt";
@@ -128,7 +142,7 @@ public class CommandLineManagerTest {
 
     @Test
     @DisplayName("Test to setup different channel params")
-    public void setRssChannelParamsTest() {
+    public void setRssChannelParamsTest() throws ValidationException {
         assertTrue(RSSConfiguration.getInstance().getRSSFeeds().isEmpty());
         String link = "dummy.rss";
         String file = "dummy.txt";
@@ -174,7 +188,7 @@ public class CommandLineManagerTest {
 
     @Test
     @DisplayName("Test to print commands")
-    public void printCommandsTest() {
+    public void printCommandsTest() throws ValidationException {
         assertTrue(RSSConfiguration.getInstance().getRSSFeeds().isEmpty());
         String link = "dummy.rss";
         String file = "dummy.txt";

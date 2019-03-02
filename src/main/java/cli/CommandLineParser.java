@@ -1,5 +1,8 @@
 package cli;
 
+import validator.RSSFeedValidator;
+
+import javax.xml.bind.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +28,7 @@ public class CommandLineParser {
      *      0 means no errors
      *      1 means graceful exit
      */
-    public int parse(String inputString) {
+    public int parse(String inputString) throws ValidationException {
         String cmd = null;
         List<String> params = null;
         List<String> blocks = Arrays.asList(inputString.split(" "));

@@ -2,7 +2,9 @@ package cli;
 
 import config.RSSConfiguration;
 import util.Log;
+import validator.RSSFeedValidator;
 
+import javax.xml.bind.ValidationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +18,16 @@ import java.util.Map;
 class CommandLineManager {
 
     private static Log log = new Log(CommandLineManager.class.getName(), System.out);
+
+    private RSSFeedValidator validator;
+
+    public CommandLineManager() {
+        this.validator = new RSSFeedValidator();
+    }
+
+    public CommandLineManager(RSSFeedValidator validator) {
+        this.validator = validator;
+    }
 
     /**
      * Print information about possible commands to the console
@@ -90,8 +102,12 @@ class CommandLineManager {
      * @param link rss feed link
      * @param file file name
      */
-    void associateRssToFile(String link, String file) {
-        RSSConfiguration.getInstance().addRSSFeed(link, file);
+    void associateRssToFile(String link, String file) throws ValidationException {
+        if (validator.validate(link)) {
+            RSSConfiguration.getInstance().addRSSFeed(link, file);
+        } else {
+            throw new ValidationException("RSS Feed " + link + " is invalid");
+        }
     }
 
     /**
@@ -109,8 +125,12 @@ class CommandLineManager {
      * @param link rss feed link
      * @param file file name
      */
-    void reassociateRssToFile(String link, String file) {
-        RSSConfiguration.getInstance().setRSSFeedFile(link, file);
+    void reassociateRssToFile(String link, String file) throws ValidationException {
+        if (validator.validate(link)) {
+            RSSConfiguration.getInstance().setRSSFeedFile(link, file);
+        } else {
+            throw new ValidationException("RSS Feed " + link + " is invalid");
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ import config.AutoRSSConfigurator;
 import poller.Poller;
 import util.Log;
 
+import javax.xml.bind.ValidationException;
 import java.util.Scanner;
 
 public class Main {
@@ -41,7 +42,7 @@ public class Main {
                     poller.stop();
                     break;
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | ValidationException e) {
                 log.error(e.getMessage());
             }
         }

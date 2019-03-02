@@ -1,0 +1,4 @@
+<item xmlns:atom="http://www.w3.org/2005/Atom">
+    <atom:title>NAME</atom:title>
+    <atom:link rel="self" href="http://atom.href"/>
+</item>

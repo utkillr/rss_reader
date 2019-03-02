@@ -1,0 +1,11 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" >
+    <atom:feed>
+        <atom:title>CHANNEL NAME</atom:title>
+        <atom:summary>CHANNEL DESCRIPTION</atom:summary>
+        <atom:entry>
+            <atom:title>NAME</atom:title>
+            <atom:content>DESCRIPTION</atom:content>
+            <atom:published>DATE</atom:published>
+        </atom:entry>
+    </atom:feed>
+</rss>

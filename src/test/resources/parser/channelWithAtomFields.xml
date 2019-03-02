@@ -1,0 +1,9 @@
+<channel xmlns:atom="http://www.w3.org/2005/Atom">
+    <atom:title>NAME</atom:title>
+    <atom:link rel="self" href="http://atom.href"/>
+    <item>
+        <title>NAME</title>
+        <description>DESCRIPTION</description>
+        <pubDate>DATE</pubDate>
+    </item>
+</channel>

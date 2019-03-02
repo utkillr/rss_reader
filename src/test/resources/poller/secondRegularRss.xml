@@ -1,0 +1,16 @@
+<rss>
+    <channel>
+        <title>dummy title</title>
+        <description>dummy description</description>
+        <item>
+            <title>dummy title</title>
+            <description>dummy description</description>
+            <pubDate>Tue, 03 May 2016 11:46:11 EST</pubDate>
+        </item>
+        <item>
+            <title>dummy title</title>
+            <description>dummy description</description>
+            <pubDate>Tue, 04 May 2016 11:46:11 EST</pubDate>
+        </item>
+    </channel>
+</rss>

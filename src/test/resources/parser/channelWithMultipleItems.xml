@@ -1,0 +1,14 @@
+<channel>
+    <title>CHANNEL NAME</title>
+    <description>CHANNEL DESCRIPTION</description>
+    <item>
+        <title>NAME</title>
+        <description>DESCRIPTION</description>
+        <pubDate>DATE</pubDate>
+    </item>
+    <item>
+        <title>NAME</title>
+        <description>DESCRIPTION</description>
+        <pubDate>DATE</pubDate>
+    </item>
+</channel>

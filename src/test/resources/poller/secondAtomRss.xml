@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/1999/xhtml">
+    <channel>
+        <atom:title>dummy title</atom:title>
+        <description>dummy description</description>
+        <item>
+            <atom:title>dummy title</atom:title>
+            <description>dummy description</description>
+            <atom:published>Tue, 03 May 2016 11:46:11 EST</atom:published>
+        </item>
+        <item>
+            <atom:title>dummy title</atom:title>
+            <description>dummy description</description>
+            <atom:published>Tue, 04 May 2016 11:46:11 EST</atom:published>
+        </item>
+    </channel>
+</rss>

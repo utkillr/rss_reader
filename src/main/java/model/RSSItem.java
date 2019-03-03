@@ -7,7 +7,6 @@ import java.io.InvalidObjectException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  * This class represents RSS Channel (Atom syntax is ignored for now).
@@ -44,6 +43,8 @@ public class RSSItem {
      * @param configuration RSSConfiguration instance
      * @param feed Link to RSS feed
      * @param source parsed Map from FeedModel
+     * @throws InvalidObjectException in case of feed is not configured, Item contains mandatory fields
+     *              or pubDate is null by some reason
      */
     RSSItem(RSSConfiguration configuration, String feed, Map<String, String> source) throws InvalidObjectException {
         if (!configuration.getRSSFeeds().containsKey(feed)) {

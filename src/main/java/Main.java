@@ -6,9 +6,21 @@ import util.Log;
 import javax.xml.bind.ValidationException;
 import java.util.Scanner;
 
+/**
+ * Main running thread
+ */
 public class Main {
     private static Log log = new Log(Main.class.getName(), System.out);
 
+    /**
+     * Initializations, Config reading and running in 3 threads:
+     * shutdown hook for saving config, polling for the whole work and CLI parsing and managing.
+     *
+     * Note: Always tries to save configuration on shutdown.
+     *      Delete config file to run application from scratch
+     *
+     * @param args not in use
+     */
     public static void main(String[] args) {
 
         AutoRSSConfigurator.loadRSSConfiguration();

@@ -14,19 +14,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-  /**
- * Implementation of CLI
- */
+/**
+* Implementation of CLI
+*/
 class CommandLineManager {
 
     private static Log log = new Log(CommandLineManager.class.getName(), System.out);
 
     private RSSFeedValidator validator;
 
+    /**
+     * Default constructor with default validator
+     */
     public CommandLineManager() {
         this.validator = new RSSFeedValidator();
     }
 
+    /**
+     * Constructor with external validator
+     *
+     * @param validator instance of RSSFeedValidator
+     */
     public CommandLineManager(RSSFeedValidator validator) {
         this.validator = validator;
     }
@@ -105,6 +113,7 @@ class CommandLineManager {
      *
      * @param link rss feed link
      * @param file file name
+     * @throws ValidationException in case of link is invalid
      */
     void associateRssToFile(String link, String file) throws ValidationException {
         if (validator.validate(link)) {
@@ -130,6 +139,7 @@ class CommandLineManager {
      *
      * @param link rss feed link
      * @param file file name
+     * @throws ValidationException in case of link is invalid
      */
     void reassociateRssToFile(String link, String file) throws ValidationException {
         if (validator.validate(link)) {
@@ -169,12 +179,12 @@ class CommandLineManager {
         log.info(link + " is off");
     }
 
-      /**
-       * Set RSS feed max items
-       *
-       * @param link rss feed link
-       * @param maxItems new max count of items
-       */
+    /**
+     * Set RSS feed max items
+     *
+     * @param link rss feed link
+     * @param maxItems new max count of items
+     */
     void setRSSMaxItems(String link, Integer maxItems) {
         RSSConfiguration.getInstance().setFeedMaxItems(link, maxItems);
         log.info("Set maxItems of " + link + " to " + maxItems);

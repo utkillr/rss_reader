@@ -52,6 +52,7 @@ public class RSSChannel {
      * @param configuration RSSConfiguration instance
      * @param feed Link to RSS feed
      * @param model parsed FeedModel
+     * @throws InvalidObjectException in case of feed is not configured or Channel contains mandatory fields
      */
     public RSSChannel(RSSConfiguration configuration, String feed, FeedModel model)
             throws InvalidObjectException {

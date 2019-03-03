@@ -11,10 +11,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+/**
+ * This class implements simple validation logic over RSS Feed, such as:
+ *  Ability to parse and form
+ *  Containment of mandatory fields
+ */
 public class RSSFeedValidator {
 
     private static Log log = new Log(RSSFeedValidator.class.getName(), System.out);
 
+    /**
+     * Validate feed.
+     * Get its stream by link, parse.
+     * Turn Feed into RSS.
+     * Then check all the mandatory fields to be presented
+     *
+     * @param feed link to RSSFeed to validate
+     * @return true if RSS Feed is valid, false otherwise
+     */
     public boolean validate(String feed) {
         FeedModel model;
         try {

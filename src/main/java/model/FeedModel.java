@@ -20,11 +20,17 @@ public class FeedModel {
     public Map<String, String> metaSource;
     public List<Map<String, String>> itemSources;
 
+    /**
+     * Default constructor
+     */
     public FeedModel() {
         metaSource = new HashMap<>();
         itemSources = new ArrayList<>();
     }
 
+    /**
+     * Special method to create new FeedModel with only RSS fields
+     */
     public void atomToRSS() {
         Map<String, String> newMetaSource = new HashMap<>();
         metaSource.keySet().forEach(key -> putAtomOrRss(metaSource, newMetaSource, key));
@@ -38,6 +44,13 @@ public class FeedModel {
         this.itemSources = newItemSources;
     }
 
+    /**
+     * Helper method to put the same value, but RSS feed from src to dest
+     *
+     * @param src Source Map with Atom fields
+     * @param dest Destination map with RSS fields only
+     * @param key key to get and put
+     */
     private void putAtomOrRss(Map<String, String> src, Map<String, String> dest, String key) {
         String transformedKey = RSSConfiguration.atomToRSS(key);
         // RSS keys are in priority

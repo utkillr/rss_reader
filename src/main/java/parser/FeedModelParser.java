@@ -14,6 +14,7 @@ import java.io.InputStream;
  */
 public class FeedModelParser {
     private static Log log = new Log(FeedModelParser.class.getName(), System.out);
+
     /**
      * Iterate over XML until it's "channel" tag. Then call parser for RSSChannel
      *

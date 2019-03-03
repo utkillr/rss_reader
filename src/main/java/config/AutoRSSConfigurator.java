@@ -24,10 +24,19 @@ public class AutoRSSConfigurator {
 
     private static boolean configurationSavedOnShutdown = false;
 
+    /**
+     * Set another config file
+     *
+     * @param file new file for configuration store
+     */
     public static void setFile(String file) {
         AutoRSSConfigurator.file = file;
     }
 
+    /**
+     * Special method which indicates that configuration is being saved on shutdown,
+     * i.e. last time
+     */
     public static void saveRSSConfigurationOnShutdown() {
         if (!configurationSavedOnShutdown) {
             saveRSSConfiguration();
@@ -35,6 +44,11 @@ public class AutoRSSConfigurator {
         }
     }
 
+    /**
+     * Save the whole configuration stored in RSSConfiguration instance
+     *
+     * Checks for file, then tries to write all the configurations in format described above
+     */
     public static void saveRSSConfiguration() {
         File f = new File(file);
         try {
@@ -59,6 +73,12 @@ public class AutoRSSConfigurator {
         }
     }
 
+    /**
+     * Load configuration from file to RSSConfiguration instance
+     *
+     * Tries to read file and if succeeds, parses its lines.
+     * If any of lines representing RSS Feed is faulted, it's being skipped
+     */
     public static void loadRSSConfiguration() {
         File f = new File(file);
         if (!f.canRead()) {
@@ -116,10 +136,24 @@ public class AutoRSSConfigurator {
         }
     }
 
+    /**
+     * Helper method to get time to poll as a string
+     *
+     * @param configuration instance of RSSConfiguration
+     * @return String representation of timToPoll
+     */
     private static String getTimeToPoll(RSSConfiguration configuration) {
         return configuration.getTimeToPoll().toString();
     }
 
+    /**
+     * Helper method to compose a string about RSS Feed.
+     * Fields are separated by column, and list items are separated by comma
+     *
+     * @param feed RSS Feed to get info
+     * @param configuration instance of RSSConfiguration
+     * @return String representation of Feed for config
+     */
     private static String getRSSFeedFullInfo(String feed, RSSConfiguration configuration) {
         StringBuilder builder = new StringBuilder();
         String lastPubDate = configuration.getRSSFeedLastPubDate(feed) == null
@@ -135,6 +169,12 @@ public class AutoRSSConfigurator {
         return builder.toString();
     }
 
+    /**
+     * Turn list of Strings to String separated by comma
+     *
+     * @param fields List of fields
+     * @return String representation of list
+     */
     private static String getFields(List<String> fields) {
         StringJoiner joiner = new StringJoiner(",");
         for (String field : fields) {
@@ -143,10 +183,22 @@ public class AutoRSSConfigurator {
         return joiner.toString();
     }
 
+    /**
+     * Turn line separated by column to a list of Strings
+     *
+     * @param line line separated by column
+     * @return list of its Strings
+     */
     private static List<String> parseParams(String line) {
         return Arrays.asList(line.split(";"));
     }
 
+    /**
+     * Turn line separated by comma to a list of Strings
+     *
+     * @param line line separated by comma
+     * @return list of its Strings
+     */
     private static List<String> parseFields(String line) {
         return Arrays.asList(line.split(","));
     }

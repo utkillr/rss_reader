@@ -1,7 +1,5 @@
 package cli;
 
-import validator.RSSFeedValidator;
-
 import javax.xml.bind.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,10 +10,17 @@ import java.util.stream.Collectors;
 public class CommandLineParser {
     private CommandLineManager manager;
 
+    /**
+     * Default constructor with default manager
+     */
     public CommandLineParser() {
         manager = new CommandLineManager();
     }
 
+    /**
+     *
+     * @param manager
+     */
     public CommandLineParser(CommandLineManager manager) {
         this.manager = manager;
     }
@@ -27,8 +32,10 @@ public class CommandLineParser {
      * @return execution status:
      *      0 means no errors
      *      1 means graceful exit
+     * @throws ValidationException in case of invalid feed
+     * @throws IllegalArgumentException in case of line can't be parsed
      */
-    public int parse(String inputString) throws ValidationException {
+    public int parse(String inputString) throws ValidationException, IllegalArgumentException {
         String cmd = null;
         List<String> params = null;
         List<String> blocks = Arrays.asList(inputString.split(" "));

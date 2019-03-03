@@ -16,6 +16,7 @@ public class XMLEventCharactersReader {
      * @param eventReader active XMLEventReader pointing on on event to be read
      * @return String representation of tag insides
      * @throws XMLStreamException in case of issues with event reading
+     * @throws IllegalArgumentException in case this is not StartElement
      */
     public static String getCharacterData(XMLEvent event, XMLEventReader eventReader)
             throws XMLStreamException, IllegalAccessException {

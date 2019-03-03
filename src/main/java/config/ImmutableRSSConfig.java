@@ -66,6 +66,14 @@ class ImmutableRSSConfig {
             .map(String::toLowerCase)
             .collect(Collectors.toList());
 
+    /**
+     * Special method which knows how atom fields correspond to RSS 2.0 fields
+     * If field is already RSS, return it.
+     * If field is unknown, return empty String.
+     *
+     * @param atomField name of Atom field with prefix
+     * @return RSS field name
+     */
     static String atomFieldToRSSField(String atomField) {
         if (!atomField.startsWith("atom")) return atomField;
         switch (atomField) {

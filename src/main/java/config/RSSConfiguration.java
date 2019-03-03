@@ -24,6 +24,9 @@ public class RSSConfiguration {
     private Map<String, List<String>> RSSFeedItemFields;
     private Map<String, Integer> RSSFeedMaxItems;
 
+    /**
+     * Default constructor
+     */
     private RSSConfiguration() {
         RSSFeedChannelFields = new HashMap<>();
         RSSFeedItemFields = new HashMap<>();
@@ -94,6 +97,7 @@ public class RSSConfiguration {
      *
      * @param feed Feed to get configured item feeds
      * @return unmodifiable list of configured item fields
+     * @throws InvalidParameterException in case of feed is not added
      */
     public List<String> getItemFields(String feed) {
         if (RSSFeedItemFields.containsKey(feed)) {
@@ -108,6 +112,7 @@ public class RSSConfiguration {
      *
      * @param feed Feed to get configured channel feeds
      * @return unmodifiable list of configured channel fields
+     * @throws InvalidParameterException in case of feed is not added
      */
     public List<String> getChannelFields(String feed) {
         if (RSSFeedChannelFields.containsKey(feed)) {
@@ -122,6 +127,7 @@ public class RSSConfiguration {
      *
      * @param feed Feed to get configured count
      * @return max count of items which can be read from RSS Feed
+     * @throws InvalidParameterException in case of feed is not added
      */
     public Integer getFeedMaxItems(String feed) {
         if (RSSFeeds.containsKey(feed)) {
@@ -136,6 +142,7 @@ public class RSSConfiguration {
      *
      * @param feed Feed to set count
      * @param count max count of items which can be read from RSS Feed
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void setFeedMaxItems(String feed, Integer count) {
         if (RSSFeeds.containsKey(feed)) {
@@ -151,6 +158,7 @@ public class RSSConfiguration {
      *
      * @param feed link to feed
      * @param file new file path
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void setRSSFeedFile(String feed, String file) {
         if (RSSFeeds.containsKey(feed)) {
@@ -168,6 +176,7 @@ public class RSSConfiguration {
      * @param feed Feed to reconfig
      * @param itemFields item fields to be configured
      * @param channelFields channel fields to be configured
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void reconfig(String feed, List<String> itemFields, List<String> channelFields) {
         if (!RSSFeeds.containsKey(feed)) {
@@ -221,6 +230,7 @@ public class RSSConfiguration {
      *
      * @param feed link to RSS Feed
      * @param file full path to file to associate with feed
+     * @throws InvalidParameterException in case of feed is already added
      */
     public void addRSSFeed(String feed, String file) {
         if (!RSSFeeds.containsKey(feed)) {
@@ -238,6 +248,7 @@ public class RSSConfiguration {
      * Remove RSS Feed from application
      *
      * @param feed link to RSS Feed
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void delRSSFeed(String feed) {
         if (RSSFeeds.containsKey(feed)) {
@@ -255,6 +266,7 @@ public class RSSConfiguration {
      * If Feed is not in, Exception is raised
      *
      * @param feed link to RSS Feed
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void turnOnRSSFeed(String feed) {
         if (RSSFeeds.containsKey(feed)) {
@@ -269,6 +281,7 @@ public class RSSConfiguration {
      * If Feed is not in, Exception is raised
      *
      * @param feed link to RSS Feed
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void turnOffRSSFeed(String feed) {
         if (RSSFeeds.containsKey(feed)) {
@@ -284,6 +297,7 @@ public class RSSConfiguration {
      *
      * @param feed link to RSS Feed
      * @return true if Feed is on, else false
+     * @throws InvalidParameterException in case of feed is not added
      */
     public boolean isRSSFeedOn(String feed) {
         if (RSSFeeds.containsKey(feed)) {
@@ -299,6 +313,7 @@ public class RSSConfiguration {
      *
      * @param feed link to RSS Feed
      * @return latest pubDate of feed
+     * @throws InvalidParameterException in case of feed is not added
      */
     public Date getRSSFeedLastPubDate(String feed) {
         if (RSSFeeds.containsKey(feed)) {
@@ -314,6 +329,7 @@ public class RSSConfiguration {
      *
      * @param feed link to RSS Feed
      * @param lastPubDate new pubDate
+     * @throws InvalidParameterException in case of feed is not added
      */
     public void notifyFeedRead(String feed, Date lastPubDate) {
         if (RSSFeeds.containsKey(feed)) {

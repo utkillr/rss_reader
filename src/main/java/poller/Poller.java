@@ -66,9 +66,10 @@ public class Poller implements Runnable {
      * In case pubDates are available, filter RSS Items to be newer than latestPubDate.
      * In case no new items arrived, do not write anything.
      *
+     * @param in InputStream to parse
      * @param link        rss feed link
      * @param file        file name
-     * @return updated latestPubDate
+     * @return updated latestPubDate or null if no success
      */
     Date handleRSSFeed(InputStream in, String link, String file) {
         try {
@@ -88,9 +89,10 @@ public class Poller implements Runnable {
     /**
      * Print RSS Feed to the file.
      *
+     * @param channel     RSS Channel which is about to be printed
      * @param link        rss feed link
      * @param path        path to file
-     * @return updated latestPubDate
+     * @throws IOException in case of issues with file work
      */
     void printRSSFeedToFile(RSSChannel channel, String link, Path path) throws IOException {
         // we do not want to append empty channel description

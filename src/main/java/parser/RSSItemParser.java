@@ -20,10 +20,13 @@ class RSSItemParser {
      * Iterate over XML and write item properties.
      * Finish on closing the item tag
      *
-     * Note: This parser is waiting for eventReader to be pointed after item tag is opened
+     * Note: This parser is waiting for eventReader to be pointed on the item tag
      *
-     * @param eventReader XMLEventReader pointing right after item tag opening
+     * @param event current XMLEvent
+     * @param eventReader XMLEventReader to use
      * @return map: ItemProperty -> value
+     * @throws IllegalAccessException in case it is not item tag
+     * @throws XMLStreamException in case of XML error
      */
     Map<String, String> parse(XMLEvent event, XMLEventReader eventReader) throws IllegalAccessException, XMLStreamException {
         Map<String, String> model = new HashMap<>();

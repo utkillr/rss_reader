@@ -1,6 +1,5 @@
 package parser;
 
-import javafx.util.Pair;
 import model.FeedModel;
 import util.Log;
 import util.XMLEventCharactersReader;
@@ -8,7 +7,6 @@ import util.XMLEventCharactersReader;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.util.Map;
 
 /**
  * This class implements parsing for channel properties and items
@@ -16,16 +14,18 @@ import java.util.Map;
 class RSSChannelParser {
     private static Log log = new Log(RSSChannelParser.class.getName(), System.out);
 
-
     /**
      * Iterate over XML and write channel properties until it's "item" tag.
      * Then call parser for RSSItem (in loop)
      * Finish on closing the channel tag
      *
-     * Note: This parser is waiting for eventReader to be pointed after channel tag is opened
+     * Note: This parser is waiting for eventReader to be pointed at channel tag
      *
-     * @param eventReader XMLEventReader pointing right after channel tag opening
+     * @param event current XMLEvenr
+     * @param eventReader XMLEventReader to use
      * @return parsed FeedModel
+     * @throws IllegalAccessException in case it's not channel tag
+     * @throws XMLStreamException in case of XML error
      */
     FeedModel parse(XMLEvent event, XMLEventReader eventReader) throws IllegalAccessException, XMLStreamException {
         FeedModel model = new FeedModel();
